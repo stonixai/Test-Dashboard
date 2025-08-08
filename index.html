@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Infrastructure Monitoring Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>IT Infrastructure Monitor</h1>
+                <div class="header-info">
+                    <span class="status-indicator online"></span>
+                    <span>System Online</span>
+                    <span class="last-update">Last Update: <span id="lastUpdate">--</span></span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Dashboard -->
+        <main class="dashboard">
+            <!-- Key Metrics Cards -->
+            <section class="metrics-section">
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Servers</h3>
+                        <div class="metric-value" id="serverCount">24</div>
+                        <div class="metric-status">
+                            <span class="status-text success">All Online</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="metric-content">
+                        <h3>CPU Usage</h3>
+                        <div class="metric-value" id="cpuUsage">67%</div>
+                        <div class="metric-status">
+                            <span class="status-text warning">Moderate Load</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Memory</h3>
+                        <div class="metric-value" id="memoryUsage">8.2 GB</div>
+                        <div class="metric-status">
+                            <span class="status-text success">51% Used</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                        </svg>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Network</h3>
+                        <div class="metric-value" id="networkSpeed">1.2 Gbps</div>
+                        <div class="metric-status">
+                            <span class="status-text success">Stable</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-section">
+                <div class="chart-container">
+                    <h3>System Performance (24h)</h3>
+                    <canvas id="performanceChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Resource Allocation</h3>
+                    <canvas id="resourceChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Services Status -->
+            <section class="services-section">
+                <h2>Service Status</h2>
+                <div class="services-grid">
+                    <div class="service-card online">
+                        <div class="service-status"></div>
+                        <div class="service-info">
+                            <h4>Web Server</h4>
+                            <span>nginx/1.21.0</span>
+                        </div>
+                        <div class="service-uptime">99.99%</div>
+                    </div>
+                    <div class="service-card online">
+                        <div class="service-status"></div>
+                        <div class="service-info">
+                            <h4>Database</h4>
+                            <span>PostgreSQL 14</span>
+                        </div>
+                        <div class="service-uptime">99.95%</div>
+                    </div>
+                    <div class="service-card warning">
+                        <div class="service-status"></div>
+                        <div class="service-info">
+                            <h4>Cache Server</h4>
+                            <span>Redis 6.2</span>
+                        </div>
+                        <div class="service-uptime">98.50%</div>
+                    </div>
+                    <div class="service-card online">
+                        <div class="service-status"></div>
+                        <div class="service-info">
+                            <h4>Load Balancer</h4>
+                            <span>HAProxy 2.4</span>
+                        </div>
+                        <div class="service-uptime">99.99%</div>
+                    </div>
+                    <div class="service-card online">
+                        <div class="service-status"></div>
+                        <div class="service-info">
+                            <h4>API Gateway</h4>
+                            <span>Kong 2.8</span>
+                        </div>
+                        <div class="service-uptime">99.97%</div>
+                    </div>
+                    <div class="service-card offline">
+                        <div class="service-status"></div>
+                        <div class="service-info">
+                            <h4>Backup Service</h4>
+                            <span>Scheduled Maintenance</span>
+                        </div>
+                        <div class="service-uptime">--</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Alerts Section -->
+            <section class="alerts-section">
+                <h2>Recent Alerts</h2>
+                <div class="alerts-container" id="alertsContainer">
+                    <div class="alert alert-warning">
+                        <div class="alert-icon">⚠️</div>
+                        <div class="alert-content">
+                            <strong>High Memory Usage</strong>
+                            <p>Server DB-02 memory usage at 85%</p>
+                        </div>
+                        <div class="alert-time">5 mins ago</div>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="alert-icon">ℹ️</div>
+                        <div class="alert-content">
+                            <strong>Scheduled Maintenance</strong>
+                            <p>Backup service will be offline for updates</p>
+                        </div>
+                        <div class="alert-time">1 hour ago</div>
+                    </div>
+                    <div class="alert alert-success">
+                        <div class="alert-icon">✅</div>
+                        <div class="alert-content">
+                            <strong>Service Restored</strong>
+                            <p>API Gateway back online after brief outage</p>
+                        </div>
+                        <div class="alert-time">3 hours ago</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
