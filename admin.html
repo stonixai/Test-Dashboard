@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - IT Infrastructure Monitor</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Admin Header -->
+        <header class="header admin-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1>Administration Panel</h1>
+                    <a href="index.html" class="back-link">← Back to Dashboard</a>
+                </div>
+                <div class="header-info">
+                    <div class="user-info">
+                        <span class="user-name" id="adminUserName">Admin</span>
+                        <span class="user-role">(Administrator)</span>
+                        <button class="logout-btn" onclick="logout()">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Admin Main Content -->
+        <main class="admin-dashboard">
+            <!-- Admin Navigation -->
+            <nav class="admin-nav">
+                <ul class="nav-list">
+                    <li class="nav-item active" data-section="metrics">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <path d="M3 9h18"></path>
+                            <path d="M9 21V9"></path>
+                        </svg>
+                        <span>Metrics Configuration</span>
+                    </li>
+                    <li class="nav-item" data-section="charts">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                        <span>Charts Settings</span>
+                    </li>
+                    <li class="nav-item" data-section="services">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                        <span>Services Management</span>
+                    </li>
+                    <li class="nav-item" data-section="alerts">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                            <line x1="12" y1="9" x2="12" y2="13"></line>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                        <span>Alert Configuration</span>
+                    </li>
+                    <li class="nav-item" data-section="thresholds">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5"></path>
+                            <path d="M2 12l10 5 10-5"></path>
+                        </svg>
+                        <span>Thresholds</span>
+                    </li>
+                    <li class="nav-item" data-section="api">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                        <span>API Settings</span>
+                    </li>
+                    <li class="nav-item" data-section="general">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M12 1v6"></path>
+                            <path d="M12 17v6"></path>
+                            <path d="M4.22 4.22l4.24 4.24"></path>
+                            <path d="M15.54 15.54l4.24 4.24"></path>
+                            <path d="M1 12h6"></path>
+                            <path d="M17 12h6"></path>
+                            <path d="M4.22 19.78l4.24-4.24"></path>
+                            <path d="M15.54 8.46l4.24-4.24"></path>
+                        </svg>
+                        <span>General Settings</span>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Admin Content Area -->
+            <div class="admin-content">
+                <!-- Metrics Configuration Section -->
+                <section id="metrics-section" class="admin-section active">
+                    <h2>Metrics Configuration</h2>
+                    
+                    <div class="settings-group">
+                        <h3>Display Settings</h3>
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <label for="showServers">Show Server Metrics</label>
+                                <input type="checkbox" id="showServers" checked>
+                            </div>
+                            <div class="setting-item">
+                                <label for="showCPU">Show CPU Usage</label>
+                                <input type="checkbox" id="showCPU" checked>
+                            </div>
+                            <div class="setting-item">
+                                <label for="showMemory">Show Memory Usage</label>
+                                <input type="checkbox" id="showMemory" checked>
+                            </div>
+                            <div class="setting-item">
+                                <label for="showNetwork">Show Network Stats</label>
+                                <input type="checkbox" id="showNetwork" checked>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Update Intervals</h3>
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <label for="metricsUpdateInterval">Metrics Update (seconds)</label>
+                                <input type="number" id="metricsUpdateInterval" value="5" min="1" max="60">
+                            </div>
+                            <div class="setting-item">
+                                <label for="alertCheckInterval">Alert Check (seconds)</label>
+                                <input type="number" id="alertCheckInterval" value="30" min="10" max="300">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Custom Metrics</h3>
+                        <div class="custom-metrics-list" id="customMetricsList">
+                            <!-- Custom metrics will be added here -->
+                        </div>
+                        <button class="btn btn-secondary" onclick="addCustomMetric()">+ Add Custom Metric</button>
+                    </div>
+                </section>
+
+                <!-- Charts Settings Section -->
+                <section id="charts-section" class="admin-section">
+                    <h2>Charts Settings</h2>
+                    
+                    <div class="settings-group">
+                        <h3>Performance Chart</h3>
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <label for="perfChartType">Chart Type</label>
+                                <select id="perfChartType">
+                                    <option value="line">Line Chart</option>
+                                    <option value="bar">Bar Chart</option>
+                                    <option value="area">Area Chart</option>
+                                </select>
+                            </div>
+                            <div class="setting-item">
+                                <label for="perfDataPoints">Data Points</label>
+                                <input type="number" id="perfDataPoints" value="24" min="12" max="48">
+                            </div>
+                            <div class="setting-item">
+                                <label for="perfRefreshRate">Refresh Rate (seconds)</label>
+                                <input type="number" id="perfRefreshRate" value="5" min="1" max="60">
+                            </div>
+                            <div class="setting-item">
+                                <label for="showGridLines">Show Grid Lines</label>
+                                <input type="checkbox" id="showGridLines" checked>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Resource Chart</h3>
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <label for="resourceChartType">Chart Type</label>
+                                <select id="resourceChartType">
+                                    <option value="doughnut">Doughnut</option>
+                                    <option value="pie">Pie Chart</option>
+                                    <option value="polarArea">Polar Area</option>
+                                </select>
+                            </div>
+                            <div class="setting-item">
+                                <label for="showLegend">Show Legend</label>
+                                <input type="checkbox" id="showLegend" checked>
+                            </div>
+                            <div class="setting-item">
+                                <label for="legendPosition">Legend Position</label>
+                                <select id="legendPosition">
+                                    <option value="top">Top</option>
+                                    <option value="bottom">Bottom</option>
+                                    <option value="left">Left</option>
+                                    <option value="right">Right</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Chart Colors</h3>
+                        <div class="color-settings">
+                            <div class="color-item">
+                                <label>CPU Color</label>
+                                <input type="color" id="cpuColor" value="#3b82f6">
+                            </div>
+                            <div class="color-item">
+                                <label>Memory Color</label>
+                                <input type="color" id="memoryColor" value="#8b5cf6">
+                            </div>
+                            <div class="color-item">
+                                <label>Network Color</label>
+                                <input type="color" id="networkColor" value="#10b981">
+                            </div>
+                            <div class="color-item">
+                                <label>Storage Color</label>
+                                <input type="color" id="storageColor" value="#f59e0b">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Services Management Section -->
+                <section id="services-section" class="admin-section">
+                    <h2>Services Management</h2>
+                    
+                    <div class="services-toolbar">
+                        <button class="btn btn-primary" onclick="addNewService()">+ Add Service</button>
+                        <button class="btn btn-secondary" onclick="importServices()">Import</button>
+                        <button class="btn btn-secondary" onclick="exportServices()">Export</button>
+                    </div>
+
+                    <div class="services-table-container">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Service Name</th>
+                                    <th>Type</th>
+                                    <th>Version</th>
+                                    <th>Critical</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="servicesTableBody">
+                                <!-- Services will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Service Monitoring</h3>
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <label for="serviceCheckInterval">Health Check Interval (seconds)</label>
+                                <input type="number" id="serviceCheckInterval" value="60" min="30" max="600">
+                            </div>
+                            <div class="setting-item">
+                                <label for="serviceTimeout">Request Timeout (ms)</label>
+                                <input type="number" id="serviceTimeout" value="5000" min="1000" max="30000">
+                            </div>
+                            <div class="setting-item">
+                                <label for="autoRestart">Auto-restart Failed Services</label>
+                                <input type="checkbox" id="autoRestart">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Alert Configuration Section -->
+                <section id="alerts-section" class="admin-section">
+                    <h2>Alert Configuration</h2>
+                    
+                    <div class="settings-group">
+                        <h3>Alert Rules</h3>
+                        <div class="alert-rules-list" id="alertRulesList">
+                            <!-- Alert rules will be populated here -->
+                        </div>
+                        <button class="btn btn-secondary" onclick="addAlertRule()">+ Add Alert Rule</button>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Notification Settings</h3>
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <label for="enableEmailAlerts">Email Notifications</label>
+                                <input type="checkbox" id="enableEmailAlerts">
+                            </div>
+                            <div class="setting-item">
+                                <label for="emailRecipients">Email Recipients</label>
+                                <input type="text" id="emailRecipients" placeholder="admin@example.com, ops@example.com">
+                            </div>
+                            <div class="setting-item">
+                                <label for="enableSlackAlerts">Slack Notifications</label>
+                                <input type="checkbox" id="enableSlackAlerts">
+                            </div>
+                            <div class="setting-item">
+                                <label for="slackWebhook">Slack Webhook URL</label>
+                                <input type="text" id="slackWebhook" placeholder="https://hooks.slack.com/...">
+                            </div>
+                            <div class="setting-item">
+                                <label for="enableBrowserNotifications">Browser Notifications</label>
+                                <input type="checkbox" id="enableBrowserNotifications" checked>
+                            </div>
+                            <div class="setting-item">
+                                <label for="maxAlertsDisplay">Max Alerts to Display</label>
+                                <input type="number" id="maxAlertsDisplay" value="10" min="5" max="50">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Alert Severities</h3>
+                        <div class="severity-config">
+                            <div class="severity-item">
+                                <span class="severity-badge critical">Critical</span>
+                                <label>Sound Alert</label>
+                                <input type="checkbox" checked>
+                            </div>
+                            <div class="severity-item">
+                                <span class="severity-badge warning">Warning</span>
+                                <label>Sound Alert</label>
+                                <input type="checkbox">
+                            </div>
+                            <div class="severity-item">
+                                <span class="severity-badge info">Info</span>
+                                <label>Sound Alert</label>
+                                <input type="checkbox">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Thresholds Section -->
+                <section id="thresholds-section" class="admin-section">
+                    <h2>System Thresholds</h2>
+                    
+                    <div class="settings-group">
+                        <h3>CPU Thresholds</h3>
+                        <div class="threshold-settings">
+                            <div class="threshold-item">
+                                <label for="cpuWarning">Warning Level (%)</label>
+                                <input type="range" id="cpuWarning" min="0" max="100" value="70">
+                                <span class="threshold-value">70%</span>
+                            </div>
+                            <div class="threshold-item">
+                                <label for="cpuCritical">Critical Level (%)</label>
+                                <input type="range" id="cpuCritical" min="0" max="100" value="90">
+                                <span class="threshold-value">90%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Memory Thresholds</h3>
+                        <div class="threshold-settings">
+                            <div class="threshold-item">
+                                <label for="memoryWarning">Warning Level (%)</label>
+                                <input type="range" id="memoryWarning" min="0" max="100" value="75">
+                                <span class="threshold-value">75%</span>
+                            </div>
+                            <div class="threshold-item">
+                                <label for="memoryCritical">Critical Level (%)</label>
+                                <input type="range" id="memoryCritical" min="0" max="100" value="85">
+                                <span class="threshold-value">85%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Disk Thresholds</h3>
+                        <div class="threshold-settings">
+                            <div class="threshold-item">
+                                <label for="diskWarning">Warning Level (%)</label>
+                                <input type="range" id="diskWarning" min="0" max="100" value="80">
+                                <span class="threshold-value">80%</span>
+                            </div>
+                            <div class="threshold-item">
+                                <label for="diskCritical">Critical Level (%)</label>
+                                <input type="range" id="diskCritical" min="0" max="100" value="95">
+                                <span class="threshold-value">95%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Network Thresholds</h3>
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <label for="latencyWarning">Latency Warning (ms)</label>
+                                <input type="number" id="latencyWarning" value="100" min="10" max="1000">
+                            </div>
+                            <div class="setting-item">
+                                <label for="latencyCritical">Latency Critical (ms)</label>
+                                <input type="number" id="latencyCritical" value="500" min="50" max="5000">
+                            </div>
+                            <div class="setting-item">
+                                <label for="packetLossWarning">Packet Loss Warning (%)</label>
+                                <input type="number" id="packetLossWarning" value="0.5" min="0" max="10" step="0.1">
+                            </div>
+                            <div class="setting-item">
+                                <label for="packetLossCritical">Packet Loss Critical (%)</label>
+                                <input type="number" id="packetLossCritical" value="2" min="0" max="10" step="0.1">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- API Settings Section -->
+                <section id="api-section" class="admin-section">
+                    <h2>API Settings</h2>
+                    
+                    <div class="settings-group">
+                        <h3>API Configuration</h3>
+                        <div class="settings-grid">
+                            <div class="setting-item full-width">
+                                <label for="apiBaseUrl">API Base URL</label>
+                                <input type="text" id="apiBaseUrl" value="https://api.monitoring.example.com">
+                            </div>
+                            <div class="setting-item">
+                                <label for="apiTimeout">Request Timeout (ms)</label>
+                                <input type="number" id="apiTimeout" value="30000" min="5000" max="60000">
+                            </div>
+                            <div class="setting-item">
+                                <label for="apiRetryAttempts">Retry Attempts</label>
+                                <input type="number" id="apiRetryAttempts" value="3" min="0" max="10">
+                            </div>
+                            <div class="setting-item">
+                                <label for="apiRetryDelay">Retry Delay (ms)</label>
+                                <input type="number" id="apiRetryDelay" value="1000" min="100" max="10000">
+                            </div>
+                            <div class="setting-item">
+                                <label for="useMockData">Use Mock Data</label>
+                                <input type="checkbox" id="useMockData" checked>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>API Authentication</h3>
+                        <div class="settings-grid">
+                            <div class="setting-item full-width">
+                                <label for="apiKey">API Key</label>
+                                <input type="password" id="apiKey" placeholder="Enter API key">
+                            </div>
+                            <div class="setting-item full-width">
+                                <label for="apiSecret">API Secret</label>
+                                <input type="password" id="apiSecret" placeholder="Enter API secret">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Test Connection</h3>
+                        <button class="btn btn-primary" onclick="testAPIConnection()">Test API Connection</button>
+                        <div class="api-test-result" id="apiTestResult"></div>
+                    </div>
+                </section>
+
+                <!-- General Settings Section -->
+                <section id="general-section" class="admin-section">
+                    <h2>General Settings</h2>
+                    
+                    <div class="settings-group">
+                        <h3>Application Settings</h3>
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <label for="appName">Application Name</label>
+                                <input type="text" id="appName" value="IT Infrastructure Monitor">
+                            </div>
+                            <div class="setting-item">
+                                <label for="appVersion">Version</label>
+                                <input type="text" id="appVersion" value="2.0.0" readonly>
+                            </div>
+                            <div class="setting-item">
+                                <label for="appEnvironment">Environment</label>
+                                <select id="appEnvironment">
+                                    <option value="production">Production</option>
+                                    <option value="staging">Staging</option>
+                                    <option value="development">Development</option>
+                                </select>
+                            </div>
+                            <div class="setting-item">
+                                <label for="debugMode">Debug Mode</label>
+                                <input type="checkbox" id="debugMode">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Feature Toggles</h3>
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <label for="enableAuth">Authentication</label>
+                                <input type="checkbox" id="enableAuth" checked>
+                            </div>
+                            <div class="setting-item">
+                                <label for="enableRealTime">Real-time Updates</label>
+                                <input type="checkbox" id="enableRealTime" checked>
+                            </div>
+                            <div class="setting-item">
+                                <label for="enableExport">Data Export</label>
+                                <input type="checkbox" id="enableExport" checked>
+                            </div>
+                            <div class="setting-item">
+                                <label for="enableDarkMode">Dark Mode</label>
+                                <input type="checkbox" id="enableDarkMode" checked>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Security Settings</h3>
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <label for="sessionTimeout">Session Timeout (minutes)</label>
+                                <input type="number" id="sessionTimeout" value="30" min="5" max="1440">
+                            </div>
+                            <div class="setting-item">
+                                <label for="maxLoginAttempts">Max Login Attempts</label>
+                                <input type="number" id="maxLoginAttempts" value="5" min="3" max="10">
+                            </div>
+                            <div class="setting-item">
+                                <label for="lockoutDuration">Lockout Duration (minutes)</label>
+                                <input type="number" id="lockoutDuration" value="15" min="5" max="60">
+                            </div>
+                            <div class="setting-item">
+                                <label for="requireStrongPassword">Require Strong Password</label>
+                                <input type="checkbox" id="requireStrongPassword" checked>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Data Management</h3>
+                        <div class="action-buttons">
+                            <button class="btn btn-secondary" onclick="exportConfiguration()">Export Configuration</button>
+                            <button class="btn btn-secondary" onclick="importConfiguration()">Import Configuration</button>
+                            <button class="btn btn-warning" onclick="clearCache()">Clear Cache</button>
+                            <button class="btn btn-danger" onclick="resetToDefaults()">Reset to Defaults</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Save Bar -->
+        <div class="save-bar" id="saveBar">
+            <span>You have unsaved changes</span>
+            <div class="save-actions">
+                <button class="btn btn-secondary" onclick="discardChanges()">Discard</button>
+                <button class="btn btn-primary" onclick="saveSettings()">Save Changes</button>
+            </div>
+        </div>
+
+        <!-- Service Edit Modal -->
+        <div class="modal-overlay" id="serviceEditModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Service Configuration</h2>
+                    <button class="modal-close" onclick="closeServiceModal()">&times;</button>
+                </div>
+                
+                <div class="modal-body">
+                    <!-- Basic Information -->
+                    <div class="modal-section">
+                        <h3>Basic Information</h3>
+                        <div class="modal-grid">
+                            <div class="modal-field">
+                                <label>Service Name</label>
+                                <input type="text" id="editServiceName" placeholder="e.g., Web Server">
+                            </div>
+                            <div class="modal-field">
+                                <label>Service Type</label>
+                                <select id="editServiceType">
+                                    <option value="nginx">Nginx</option>
+                                    <option value="apache">Apache</option>
+                                    <option value="postgresql">PostgreSQL</option>
+                                    <option value="mysql">MySQL</option>
+                                    <option value="redis">Redis</option>
+                                    <option value="mongodb">MongoDB</option>
+                                    <option value="rabbitmq">RabbitMQ</option>
+                                    <option value="kafka">Kafka</option>
+                                    <option value="elasticsearch">Elasticsearch</option>
+                                    <option value="custom">Custom</option>
+                                </select>
+                            </div>
+                            <div class="modal-field">
+                                <label>Version</label>
+                                <input type="text" id="editServiceVersion" placeholder="e.g., 2.4.0">
+                            </div>
+                            <div class="modal-field">
+                                <label>Service ID</label>
+                                <input type="text" id="editServiceId" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Connection Settings -->
+                    <div class="modal-section">
+                        <h3>Connection Settings</h3>
+                        <div class="modal-grid">
+                            <div class="modal-field full-width">
+                                <label>Host/IP Address</label>
+                                <input type="text" id="editServiceHost" placeholder="e.g., 192.168.1.100 or server.example.com">
+                            </div>
+                            <div class="modal-field">
+                                <label>Port</label>
+                                <input type="number" id="editServicePort" placeholder="e.g., 80, 443, 3306">
+                            </div>
+                            <div class="modal-field">
+                                <label>Protocol</label>
+                                <select id="editServiceProtocol">
+                                    <option value="http">HTTP</option>
+                                    <option value="https">HTTPS</option>
+                                    <option value="tcp">TCP</option>
+                                    <option value="udp">UDP</option>
+                                    <option value="websocket">WebSocket</option>
+                                </select>
+                            </div>
+                            <div class="modal-field full-width">
+                                <label>Health Check Endpoint</label>
+                                <input type="text" id="editServiceHealthEndpoint" placeholder="e.g., /health, /status, /ping">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Monitoring Configuration -->
+                    <div class="modal-section">
+                        <h3>Monitoring Configuration</h3>
+                        <div class="modal-grid">
+                            <div class="modal-field">
+                                <label>Check Interval (seconds)</label>
+                                <input type="number" id="editServiceCheckInterval" value="60" min="10" max="3600">
+                            </div>
+                            <div class="modal-field">
+                                <label>Timeout (seconds)</label>
+                                <input type="number" id="editServiceTimeout" value="10" min="1" max="60">
+                            </div>
+                            <div class="modal-field">
+                                <label>Retry Attempts</label>
+                                <input type="number" id="editServiceRetries" value="3" min="0" max="10">
+                            </div>
+                            <div class="modal-field">
+                                <label>Expected Response Code</label>
+                                <input type="text" id="editServiceExpectedCode" value="200" placeholder="e.g., 200, 204">
+                            </div>
+                        </div>
+                        
+                        <div class="modal-checkboxes">
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="editServiceCritical">
+                                <span>Critical Service (Affects overall system status)</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="editServiceAutoRestart">
+                                <span>Auto-restart on failure</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="editServiceMonitorPerformance">
+                                <span>Monitor performance metrics</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="editServiceLogErrors">
+                                <span>Log error details</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Alert Settings -->
+                    <div class="modal-section">
+                        <h3>Alert Settings</h3>
+                        <div class="modal-grid">
+                            <div class="modal-field">
+                                <label>Alert After Failures</label>
+                                <input type="number" id="editServiceAlertThreshold" value="3" min="1" max="10">
+                            </div>
+                            <div class="modal-field">
+                                <label>Alert Severity</label>
+                                <select id="editServiceAlertSeverity">
+                                    <option value="info">Info</option>
+                                    <option value="warning">Warning</option>
+                                    <option value="critical">Critical</option>
+                                </select>
+                            </div>
+                            <div class="modal-field full-width">
+                                <label>Alert Recipients (comma-separated emails)</label>
+                                <input type="text" id="editServiceAlertRecipients" placeholder="admin@example.com, ops@example.com">
+                            </div>
+                            <div class="modal-field full-width">
+                                <label>Custom Alert Message</label>
+                                <textarea id="editServiceAlertMessage" rows="3" placeholder="Service {name} is down at {time}"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Performance Thresholds -->
+                    <div class="modal-section">
+                        <h3>Performance Thresholds</h3>
+                        <div class="threshold-grid">
+                            <div class="threshold-row">
+                                <label>Response Time Warning (ms)</label>
+                                <input type="range" id="editServiceRespTimeWarn" min="0" max="5000" value="1000">
+                                <span class="threshold-display">1000ms</span>
+                            </div>
+                            <div class="threshold-row">
+                                <label>Response Time Critical (ms)</label>
+                                <input type="range" id="editServiceRespTimeCrit" min="0" max="10000" value="3000">
+                                <span class="threshold-display">3000ms</span>
+                            </div>
+                            <div class="threshold-row">
+                                <label>CPU Usage Warning (%)</label>
+                                <input type="range" id="editServiceCpuWarn" min="0" max="100" value="70">
+                                <span class="threshold-display">70%</span>
+                            </div>
+                            <div class="threshold-row">
+                                <label>CPU Usage Critical (%)</label>
+                                <input type="range" id="editServiceCpuCrit" min="0" max="100" value="90">
+                                <span class="threshold-display">90%</span>
+                            </div>
+                            <div class="threshold-row">
+                                <label>Memory Usage Warning (%)</label>
+                                <input type="range" id="editServiceMemWarn" min="0" max="100" value="75">
+                                <span class="threshold-display">75%</span>
+                            </div>
+                            <div class="threshold-row">
+                                <label>Memory Usage Critical (%)</label>
+                                <input type="range" id="editServiceMemCrit" min="0" max="100" value="85">
+                                <span class="threshold-display">85%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dependencies -->
+                    <div class="modal-section">
+                        <h3>Dependencies</h3>
+                        <div class="dependencies-list" id="serviceDependenciesList">
+                            <!-- Dependencies will be populated here -->
+                        </div>
+                        <button class="btn btn-secondary" onclick="addServiceDependency()">+ Add Dependency</button>
+                    </div>
+
+                    <!-- Custom Commands -->
+                    <div class="modal-section">
+                        <h3>Custom Commands</h3>
+                        <div class="modal-grid">
+                            <div class="modal-field full-width">
+                                <label>Start Command</label>
+                                <input type="text" id="editServiceStartCmd" placeholder="e.g., systemctl start nginx">
+                            </div>
+                            <div class="modal-field full-width">
+                                <label>Stop Command</label>
+                                <input type="text" id="editServiceStopCmd" placeholder="e.g., systemctl stop nginx">
+                            </div>
+                            <div class="modal-field full-width">
+                                <label>Restart Command</label>
+                                <input type="text" id="editServiceRestartCmd" placeholder="e.g., systemctl restart nginx">
+                            </div>
+                            <div class="modal-field full-width">
+                                <label>Status Check Command</label>
+                                <input type="text" id="editServiceStatusCmd" placeholder="e.g., systemctl status nginx">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes -->
+                    <div class="modal-section">
+                        <h3>Notes & Documentation</h3>
+                        <div class="modal-field full-width">
+                            <textarea id="editServiceNotes" rows="4" placeholder="Add any notes, documentation links, or special instructions..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="testServiceConnection()">Test Connection</button>
+                    <div class="modal-actions">
+                        <button class="btn btn-secondary" onclick="closeServiceModal()">Cancel</button>
+                        <button class="btn btn-primary" onclick="saveServiceSettings()">Save Service</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Service Scripts -->
+    <script src="config.js"></script>
+    <script src="logger.js"></script>
+    <script src="storage-service.js"></script>
+    <script src="api-service.js"></script>
+    <script src="auth-service.js"></script>
+    <script src="dark-mode.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

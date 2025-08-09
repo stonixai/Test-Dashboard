@@ -93,11 +93,15 @@
             <section class="charts-section">
                 <div class="chart-container">
                     <h3>System Performance (24h)</h3>
-                    <canvas id="performanceChart"></canvas>
+                    <div class="chart-wrapper">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
                 </div>
                 <div class="chart-container">
                     <h3>Resource Allocation</h3>
-                    <canvas id="resourceChart"></canvas>
+                    <div class="chart-wrapper">
+                        <canvas id="resourceChart"></canvas>
+                    </div>
                 </div>
             </section>
 
@@ -189,6 +193,13 @@
         </main>
     </div>
 
+    <!-- Service Scripts -->
+    <script src="config.js"></script>
+    <script src="logger.js"></script>
+    <script src="storage-service.js"></script>
+    <script src="api-service.js"></script>
+    <script src="auth-service.js"></script>
+    <script src="dark-mode.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
